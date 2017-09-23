@@ -2,19 +2,25 @@
 
 namespace Api\Core;
 
-use Dotenv\Dotenv;
+use Api\Controllers\BaseController;
+use Psr\Container\ContainerInterface;
 
-class Configuration
+/**
+ * Class Configuration
+ * @package Api\Core
+ */
+
+class Configuration extends BaseController
 {
-    private $config;
-
-    public function __construct()
+    public function __construct(ContainerInterface $container)
     {
-        return $this->config = new Dotenv(__DIR__ . '../Config');
+        parent::__construct($container);
+
+        return $this->loadConfig();
     }
 
-    public function getConfig()
+    public function loadConfig()
     {
-        return $this->config;
+
     }
 }

@@ -3,7 +3,7 @@
 $routes = $application->appInstance;
 
 $routes->group('/v1', function() {
-
-    $this->map(['GET'], '/home', \Api\Controllers\HomeController::class . ':index');
-
+    $this->get('/home', \Api\Controllers\HomeController::class . ':index');
 });
+
+

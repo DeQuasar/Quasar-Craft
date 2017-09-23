@@ -13,6 +13,6 @@ $application = new \Api\Core\Application;
 
 $application->bootApplication();
 
-require 'app/routes.php';
+require_once 'app/routes.php';
 
 $application->runApplication();
