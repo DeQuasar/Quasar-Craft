@@ -1,0 +1,22 @@
+{
+    "name": "dequasar/quasar-craft",
+    "description": "Minecraft Content Management System",
+    "type": "project",
+    "require": {
+        "slim/slim": "^3.8",
+        "vlucas/phpdotenv": "^2.4"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "DeQuasar",
+            "email": "tonypro999@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Api\\": "App/"
+        }
+    }
+}

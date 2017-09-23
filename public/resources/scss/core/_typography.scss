@@ -1,0 +1,26 @@
+/*
+  Heading Typography
+*/
+
+// Calculates font size for each heading tag, starting with the $basefontSize and incrementing by the $fontsizeScale.
+@for $i from 1 through 6 {
+  h#{$i} {
+    font-size: $basefontSize + $fontsizeScale * (6 - $i);
+
+    small {
+      font-size: $basefontSize + $fontsizeScale * (4 - $i);
+    }
+  }
+}
+
+h1, h2, h3, h4, h5, h6, header {
+  font-family: $primaryFont;
+
+  small {
+    font-family: $secondaryFont;
+  }
+}
+
+/*
+  Body Typography
+*/
