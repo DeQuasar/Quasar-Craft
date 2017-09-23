@@ -4,9 +4,9 @@ namespace Api\Core;
 
 use \Slim\App       as App;
 use \Slim\Container as SlimContainer;
-use \ReflectionClass as Reflection;
 
-use \Api\Core\Configuration as Config;
+use \Api\Core\Containers    as Containers;
+use \Api\Core\Configuration as Configuration;
 
 /**
  * Class Application
@@ -37,7 +37,8 @@ class Application
      */
     public function bootApplication()
     {
-        $this->bootContainers();
+        new Containers();
+        new Configuration();
     }
 
     /**
@@ -48,23 +49,5 @@ class Application
     public function runApplication()
     {
         $this->appInstance->run();
-    }
-
-    /**
-     * bootContainers
-     *
-     * Gathers all of the methods in the ApplicationContainers class file and calls them.
-     */
-    private function bootContainers()
-    {
-        $class      = new \Api\Containers\ApplicationContainers;
-        $reflection = new Reflection($class);
-
-        foreach($reflection->getMethods() as $key => $method)
-        {
-            $methodName = $method->name;
-
-            $class->{$methodName}($this->container);
-        };
     }
 }

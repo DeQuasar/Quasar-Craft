@@ -24,15 +24,21 @@ class ApplicationContainers
 
     public function baseController($container)
     {
-        $container['BaseController'] = function ($container) {
-            return new BaseController($container);
+        $container['BaseController'] = function ($c) {
+            return new BaseController($c);
         };
     }
 
-    public function Config($container)
+    /**
+     * @param $container
+     */
+
+    public function config($container)
     {
-        $container['config'] = function ($container) {
-            return new Configuration($container);
+        $container['config'] = function ($c) {
+            echo 'test';
+
+            //return new Configuration($c);
         };
     }
 }
