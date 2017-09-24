@@ -2,7 +2,7 @@
 
 namespace Api\Controllers;
 
-use Psr\Container\ContainerInterface;
+use \Psr\Container\ContainerInterface;
 
 /**
  * Class HomeController
@@ -15,7 +15,7 @@ class HomeController extends BaseController
      *
      * @param \Psr\Container\ContainerInterface $container
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(\Psr\Container\ContainerInterface $container)
     {
         parent::__construct($container);
     }
@@ -23,8 +23,8 @@ class HomeController extends BaseController
     /**
      *
      */
-    public function index()
+    public function index($request, $response, $args)
     {
-        echo 'test';
+        print_r($this->container);
     }
 }
