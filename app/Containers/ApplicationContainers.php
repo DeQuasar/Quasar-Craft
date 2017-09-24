@@ -3,7 +3,6 @@
 namespace Api\Containers;
 
 use \Api\Controllers\BaseController;
-use \Api\Core\Configuration;
 
 /**
  * Class ApplicationContainers
@@ -13,32 +12,16 @@ use \Api\Core\Configuration;
 class ApplicationContainers
 {
     /**
-     * BaseController Container
+     * baseController
      *
-     * Base Controller container for the application controllers.
+     * Base controller container.
      *
-     * @object $container
-     *
-     * @return \Api\Controllers\BaseController
-     */
-
-    public function baseController($container)
-    {
-        $container['BaseController'] = function ($c) {
-            return new BaseController($c);
-        };
-    }
-
-    /**
      * @param $container
      */
-
-    public function config($container)
+    public function baseController($container)
     {
-        $container['config'] = function ($c) {
-            echo 'test';
-
-            //return new Configuration($c);
+        $container['BaseController'] = function ($container) {
+            return new BaseController($container);
         };
     }
 }
