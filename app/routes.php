@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * Application Routes.
+ */
+
 $routes = $application->appInstance;
 
 $routes->group('/v1', function() {
