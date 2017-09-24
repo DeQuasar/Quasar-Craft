@@ -4,15 +4,13 @@
  * Quasar-Craft - A Minecraft Content Management System
  *
  * @package Quasar-CMS
- * @author  Anthony Protano <anthony@anthonyprotano.com>
- */
+ * @author  Anthony Protano <anthony.protano.ii@gmail.com>
+*/
 
 require 'vendor/autoload.php';
 
 $application = new \Api\Core\Application;
 
-$application->bootApplication();
-
 require_once 'app/routes.php';
 
-$application->runApplication();
+$application->bootApplication();
