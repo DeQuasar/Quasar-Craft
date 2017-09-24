@@ -2,24 +2,33 @@
 
 namespace Api\Core;
 
-use ReflectionClass as Reflection;
+use \Api\Containers\ApplicationContainers;
+use \ReflectionClass as Reflection;
 
 /**
  * Class Containers
  * @package Api\Core
  */
 
-class Containers extends Application
+class Containers
 {
+
+    /**
+     * @object $container
+     */
+    protected $container;
+
     /**
      * Containers constructor.
+     *
+     * Sets the container object then boots the containers.
      */
 
-    public function __construct()
+    public function __construct($container)
     {
-        parent::__construct();
+        $this->container = $container;
 
-        return $this->bootContainers();
+        $this->bootContainers();
     }
 
     /**
@@ -29,13 +38,13 @@ class Containers extends Application
      */
     private function bootContainers()
     {
-        $class      = new \Api\Containers\ApplicationContainers;
+        $class      = new ApplicationContainers;
         $reflection = new Reflection($class);
 
         foreach ($reflection->getMethods() as $key => $method) {
             $methodName = $method->name;
 
             $class->{$methodName}($this->container);
-        };
+        }
     }
 }
