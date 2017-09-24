@@ -9,20 +9,12 @@ use Psr\Container\ContainerInterface;
  * @package Api\Core
  */
 
-class Configuration extends Application
+class Configuration
 {
     /**
-     * Configuration constructor from Application parent.
-     *
-     * @object \Psr\Container\ContainerInterface $container
+     * @var $path
      */
-
-    public function __construct()
-    {
-         parent::__construct();
-
-         return $this->loadConfig();
-    }
+    private $path;
 
     /**
      * loadConfig
@@ -34,14 +26,16 @@ class Configuration extends Application
 
     public function loadConfig()
     {
+        $this->path = realpath(__DIR__ . '/../Config/configuration.php');
+
         try {
-            if (is_readable($this->rootPath . '/app/config/configuration.php')) {
-                $config = require_once $this->rootPath . '/app/config/configuration.php';
+            if (is_readable($this->path)) {
+                $config = require_once $this->path;
             } else {
-                throw new \Exception('Configuration file is not readable.');
+                throw new \Exception('Configuration file not found.');
             }
 
-            return $this->container->get('settings')->replace($config);
+            return $config;
         } catch (\Exception $e) {
             die($e->getMessage());
         }
