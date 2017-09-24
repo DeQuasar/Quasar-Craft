@@ -3,7 +3,6 @@
 namespace Api\Core;
 
 use \Slim\App       as App;
-use \Slim\Container as SlimContainer;
 
 use \Api\Core\Containers    as Containers;
 use \Api\Core\Configuration as Configuration;
@@ -14,20 +13,30 @@ use \Api\Core\Configuration as Configuration;
  */
 class Application
 {
-    public $rootPath,
-           $appInstance,
-           $container;
+    /**
+     * @var \Slim\App $appInstance
+     */
+
+    public $appInstance;
+
+    /**
+     * @var \Psr\Container\ContainerInterface $container
+     */
+
+    public $container;
 
     /**
      * Application constructor.
+     *
+     * Generates the configuration, creates the app, and sets the container.
      */
     public function __construct()
     {
-        $this->appInstance = new App(new SlimContainer);
-        $this->container   = $this->appInstance->getContainer();
-        $this->rootPath    = dirname(dirname(__DIR__)) . '/';
+        $config = new Configuration;
+        $config = $config->loadConfig();
 
-        return $this;
+        $this->appInstance = new App($config);
+        $this->container   = $this->appInstance->getContainer();
     }
 
     /**
@@ -37,17 +46,8 @@ class Application
      */
     public function bootApplication()
     {
-        new Containers();
-        new Configuration();
-    }
+        new Containers($this->container);
 
-    /**
-     * runApplication
-     *
-     * Run's the appInstance.
-     */
-    public function runApplication()
-    {
         $this->appInstance->run();
     }
 }
