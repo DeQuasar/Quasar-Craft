@@ -7,7 +7,7 @@
 return [
     'settings' => [
         'displayErrorDetails'                => true,
-        'determineRouteBeforeAppMiddleware'  => true,
+        'determineRouteBeforeAppMiddleware'  => false,
         'debug'                              => true,
 
         'database' => [
@@ -15,6 +15,6 @@ return [
             'username'       => 'root',
             'password'       => '',
             'databaseName'   => 'minecraft'
-        ]
+        ],
     ]
 ];
