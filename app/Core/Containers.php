@@ -3,7 +3,9 @@
 namespace Api\Core;
 
 use \Api\Containers\ApplicationContainers;
+use Psr\Container\ContainerInterface;
 use \ReflectionClass as Reflection;
+
 
 /**
  * Class Containers
@@ -14,21 +16,14 @@ class Containers
 {
 
     /**
-     * @object $container
-     */
-    protected $container;
-
-    /**
      * Containers constructor.
      *
-     * Sets the container object then boots the containers.
+     * @param \Psr\Container\ContainerInterface $container
      */
 
-    public function __construct($container)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-
-        $this->bootContainers();
     }
 
     /**
@@ -36,7 +31,7 @@ class Containers
      *
      * Gathers all of the methods in the ApplicationContainers class file and calls them.
      */
-    private function bootContainers()
+    public function loadContainers()
     {
         $class      = new ApplicationContainers;
         $reflection = new Reflection($class);

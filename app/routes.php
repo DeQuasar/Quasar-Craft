@@ -4,10 +4,8 @@
  * Application Routes.
  */
 
-$routes = $application->appInstance;
+$router = $app->getApp();
 
-$routes->group('/v1', function() {
+$router->group('/v1', function () {
     $this->get('/home', \Api\Controllers\HomeController::class . ':index');
 });
-
-

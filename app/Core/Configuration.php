@@ -2,20 +2,15 @@
 
 namespace Api\Core;
 
-use Psr\Container\ContainerInterface;
+use \Api\Core\Application;
 
 /**
  * Class Configuration
  * @package Api\Core
  */
 
-class Configuration
+class Configuration extends Application
 {
-    /**
-     * @var $path
-     */
-    private $path;
-
     /**
      * loadConfig
      *
@@ -26,11 +21,11 @@ class Configuration
 
     public function loadConfig()
     {
-        $this->path = realpath(__DIR__ . '/../Config/configuration.php');
+        $path = $this->basePath . 'app/Config/configuration.php';
 
         try {
-            if (is_readable($this->path)) {
-                $config = require_once $this->path;
+            if (is_readable($path)) {
+                $config = require_once $path;
             } else {
                 throw new \Exception('Configuration file not found.');
             }

@@ -9,8 +9,10 @@
 
 require 'vendor/autoload.php';
 
-$application = new \Api\Core\Application;
+$app = new \Api\Core\Application;
 
-require_once 'app/routes.php';
+$app->bootApp();
 
-$application->bootApplication();
+require $app->getBasePath() . '/app/routes.php';
+
+$app->runApp();

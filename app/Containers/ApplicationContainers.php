@@ -2,7 +2,7 @@
 
 namespace Api\Containers;
 
-use \Api\Controllers\BaseController;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class ApplicationContainers
@@ -11,17 +11,5 @@ use \Api\Controllers\BaseController;
 
 class ApplicationContainers
 {
-    /**
-     * baseController
-     *
-     * Base controller container.
-     *
-     * @param $container
-     */
-    public function baseController($container)
-    {
-        $container['BaseController'] = function ($container) {
-            return new BaseController($container);
-        };
-    }
+
 }

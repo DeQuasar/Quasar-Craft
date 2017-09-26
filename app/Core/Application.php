@@ -2,7 +2,7 @@
 
 namespace Api\Core;
 
-use \Slim\App       as App;
+use \Slim\App as App;
 
 use \Api\Core\Containers    as Containers;
 use \Api\Core\Configuration as Configuration;
@@ -13,41 +13,128 @@ use \Api\Core\Configuration as Configuration;
  */
 class Application
 {
-    /**
-     * @var \Slim\App $appInstance
-     */
-
-    public $appInstance;
 
     /**
-     * @var \Psr\Container\ContainerInterface $container
+     * @var $application
      */
+    protected $application;
 
-    public $container;
+    /**
+     * @var $container
+     */
+    protected $container;
+
+    /**
+     * @var $basePath
+     */
+    protected $basePath;
 
     /**
      * Application constructor.
-     *
-     * Generates the configuration, creates the app, and sets the container.
      */
-    public function __construct()
-    {
-        $config = new Configuration;
-        $config = $config->loadConfig();
+    public function __construct(){}
 
-        $this->appInstance = new App($config);
-        $this->container   = $this->appInstance->getContainer();
+    /**
+     * bootApp
+     *
+     * Sets protected variables
+     */
+    public function bootApp()
+    {
+        if (empty($this->application)) {
+            $config = $this->bootConfiguration();
+
+            $this->application = new App($config);
+        };
+
+        $this->container = $this->getApp()->getContainer();
+        $this->basePath  = dirname(dirname(__DIR__)) . '/';
+
+        $this->bootContainer();
+
+        $capsule = new \Illuminate\Database\Capsule\Manager;
+
+        $capsule->addConnection($this->container['settings']['database']);
+        $capsule->setAsGlobal();
+        $capsule->bootEloquent();
+
+        $capsule->getContainer()->singleton(
+            \Illuminate\Contracts\Debug\ExceptionHandler::class,
+            \Api\Exceptions\Handler::class
+        );
     }
 
     /**
-     * bootApplication
+     * runApp
      *
-     * Calls all of the methods that are required to run the application.
+     * Runs the application.
+     *
+     * @return object
      */
-    public function bootApplication()
+    public function runApp()
     {
-        new Containers($this->container);
+        return $this->application->run();
+    }
 
-        $this->appInstance->run();
+    /**
+     * getApp
+     *
+     * Returns the application object.
+     *
+     * @return object
+     */
+    public function getApp()
+    {
+        return $this->application;
+    }
+
+    /**
+     * getContainer
+     *
+     * Returns the container object.
+     *
+     * @return object
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * getBasePath
+     *
+     * Returns the base path.
+     *
+     * @return string
+     */
+    public function getBasePath()
+    {
+        return $this->basePath;
+    }
+
+    /**
+     * bootConfiguration
+     *
+     * Loads the configuration files.
+     *
+     * @return array
+     */
+    private function bootConfiguration()
+    {
+        $config = new Configuration;
+        return $config->loadConfig();
+    }
+
+    /**
+     * bootContainer
+     *
+     * Loads the application containers.
+     *
+     * return mixed
+     */
+    private function bootContainer()
+    {
+        $containers = new Containers($this->getContainer());
+        return $containers->loadContainers();
     }
 }

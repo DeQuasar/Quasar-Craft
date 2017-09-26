@@ -4,7 +4,9 @@
     "type": "project",
     "require": {
         "slim/slim": "^3.8",
-        "monolog/monolog": "^1.23"
+        "monolog/monolog": "^1.23",
+        "oscarotero/psr7-middlewares": "^3.21",
+        "illuminate/database": "^5.5"
     },
     "license": "MIT",
     "authors": [
