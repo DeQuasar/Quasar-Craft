@@ -2,15 +2,18 @@
 
 namespace Api\Core;
 
-use \Api\Core\Application;
-
 /**
  * Class Configuration
  * @package Api\Core
  */
-
-class Configuration extends Application
+class Configuration
 {
+
+    /**
+     * @var
+     */
+    private $path;
+
     /**
      * loadConfig
      *
@@ -18,10 +21,17 @@ class Configuration extends Application
      *
      * @return mixed
      */
+    public function __construct($path)
+    {
+        return $this->path = $path;
+    }
 
+    /**
+     * @return mixed
+     */
     public function loadConfig()
     {
-        $path = $this->basePath . 'app/Config/configuration.php';
+        $path = $this->path . 'app/Core/Config/configuration.php';
 
         try {
             if (is_readable($path)) {
