@@ -41,6 +41,8 @@ class Application
      */
     public function bootApp()
     {
+        $this->basePath  = dirname(dirname(__DIR__)) . '/';
+
         if (empty($this->application)) {
             $config = $this->bootConfiguration();
 
@@ -48,20 +50,10 @@ class Application
         };
 
         $this->container = $this->getApp()->getContainer();
-        $this->basePath  = dirname(dirname(__DIR__)) . '/';
 
         $this->bootContainer();
 
-        $capsule = new \Illuminate\Database\Capsule\Manager;
-
-        $capsule->addConnection($this->container['settings']['database']);
-        $capsule->setAsGlobal();
-        $capsule->bootEloquent();
-
-        $capsule->getContainer()->singleton(
-            \Illuminate\Contracts\Debug\ExceptionHandler::class,
-            \Api\Exceptions\Handler::class
-        );
+        $this->bootEloquent();
     }
 
     /**
@@ -121,7 +113,7 @@ class Application
      */
     private function bootConfiguration()
     {
-        $config = new Configuration;
+        $config = new Configuration($this->getBasePath());
         return $config->loadConfig();
     }
 
@@ -134,7 +126,30 @@ class Application
      */
     private function bootContainer()
     {
-        $containers = new Containers($this->getContainer());
+        $containers = new Containers($this->container);
         return $containers->loadContainers();
+    }
+
+    /**
+     * bootEloquent
+     *
+     * Starts the Eloquent ORM.
+     *
+     * return mixed
+     */
+    private function bootEloquent()
+    {
+        $capsule = new \Illuminate\Database\Capsule\Manager;
+
+        $capsule->addConnection($this->container['settings']['database']);
+        $capsule->setAsGlobal();
+        $capsule->bootEloquent();
+
+        $capsule->getContainer()->singleton(
+            \Illuminate\Contracts\Debug\ExceptionHandler::class,
+            \Api\Exceptions\Handler::class
+        );
+
+        return $capsule;
     }
 }
