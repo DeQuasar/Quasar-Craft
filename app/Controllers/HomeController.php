@@ -27,6 +27,6 @@ class HomeController
      */
     public function index(RequestInterface $request, ResponseInterface $response, $args)
     {
-       return $response->getBody()->write(\Api\Models\Dev::all()->toJson());
+        return $response->getBody()->write(\Api\Models\Dev::all()->toJson());
     }
 }
