@@ -2,8 +2,9 @@
 
 namespace Api\Core;
 
-use \Api\Containers\ApplicationContainers;
+use \Api\Core\Containers\ApplicationContainers;
 use Psr\Container\ContainerInterface;
+
 use \ReflectionClass as Reflection;
 
 
@@ -18,10 +19,10 @@ class Containers
     /**
      * Containers constructor.
      *
-     * @param \Psr\Container\ContainerInterface $container
+     * @param ContainerInterface $container
      */
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(\Psr\Container\ContainerInterface $container)
     {
         $this->container = $container;
     }
@@ -36,10 +37,20 @@ class Containers
         $class      = new ApplicationContainers;
         $reflection = new Reflection($class);
 
-        foreach ($reflection->getMethods() as $key => $method) {
-            $methodName = $method->name;
+        try {
+            foreach ($reflection->getMethods() as $key => $method) {
+                $methodName = $method->name;
 
-            $class->{$methodName}($this->container);
+                if (method_exists($class, $methodName)) {
+                    $class->{$methodName}($this->container);
+                } else {
+                    throw new \Exception('Failed to load containers, ' . $methodName . ' does not exist.');
+                }
+            }
+        } catch(\Exception $e) {
+            return die($e->getMessage());
         }
+
+        return true;
     }
 }
