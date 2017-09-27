@@ -1,6 +1,6 @@
 <?php
 
-namespace Api\Containers;
+namespace Api\Core\Containers;
 
 use Psr\Container\ContainerInterface;
 
@@ -11,5 +11,4 @@ use Psr\Container\ContainerInterface;
 
 class ApplicationContainers
 {
-
 }
